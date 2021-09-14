@@ -1,0 +1,38 @@
+{% extends 'Record_tem/Home.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    <title>Add Department Page</title>
+{% endblock %}
+
+{% block content %}
+
+    <!-- <form method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+        <div style="color: red;">
+        {% if messages %}
+            {% for msj in messages %}
+                {{msj}}
+            {% endfor %}
+        {% endif %}</div><br>
+        <button type="submit">Register</button>
+    </form> -->
+
+    <div class="signup-form">
+        <form method="post">
+            <h2>Register Department</h2>
+            {% csrf_token %}
+            {{form|crispy}}
+            <div style="color: red;">
+                {% if messages %}
+                    {% for msj in messages %}
+                        {{msj}}
+                    {% endfor %}
+                {% endif %}</div><br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg">Register</button>
+            </div>
+        </form>
+        
+    </div>
+{% endblock %}

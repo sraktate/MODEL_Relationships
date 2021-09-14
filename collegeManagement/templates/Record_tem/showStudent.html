@@ -1,0 +1,36 @@
+{% extends 'Record_tem/Home.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    <title>Show Student Page</title>
+{% endblock %}
+
+{% block content %}
+<div class="container" style="padding:30px 20px; background-color: rgb(161, 223, 126);">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Student Department</th>
+            <th>Student Name</th>
+            <th>Student Roll No</th>
+            <th>Student Address</th>
+            <th>Student Marks</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in stu %}
+        <tr>
+            <td>{{i.department}}</td>
+            <td>{{i.SName}}</td>
+            <td>{{i.Roll_no}}</td>
+            <td>{{i.SAddress}}</td>
+            <td>{{i.Marks}}</td>
+           <td> <a href="{% url 'Updatestudent' i.id %}" class="edit" title="Edit" data-toggle="tooltip" style="margin-left: 5%; color: #fbff00;"><i class="material-icons" style="font-size: 25px; padding: auto; margin-right: 20%;">&#xE254;</i></a>
+            <a href="{% url 'Deletestudent' i.id %}" class="delete" title="Delete" data-toggle="tooltip" style="margin-left: 5%; color: #ff0b0b;"><i class="material-icons" style="font-size: 25px; padding: auto;">&#xE872;</i></a>
+        </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+</div>
+{% endblock %}
