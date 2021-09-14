@@ -101,31 +101,52 @@ def DeleteLecturerView(request,delete):
     return redirect('Showlecture')
 
 @login_required(login_url='login')
-def Searchview(request):
-    if request.method == 'POST':
-        radio=request.POST.get('dep')
-        if radio == 'Department':
-            search=request.POST.get('search')
-            dep_obj=Department.objects.get(DName=search)
-            dep_id=dep_obj.id
-            lecresult=Lecture.objects.filter(department=dep_id)
-            sturesult=Student.objects.filter(department_id=dep_id)
-            template_name='Record_tem/search.html'
-            context={'lecresult':lecresult,'sturesult':sturesult}
-            return render(request,template_name,context)
-        elif radio == 'Student':
-            search=request.POST.get('search')
-            sturesult=Student.objects.filter(SName=search)
-            template_name='Record_tem/search.html'
-            context={'sturesult':sturesult}
-            return render(request,template_name,context)
 
-        elif radio == 'Lecture':
-            search=request.POST.get('search')
-            lecresult=Lecture.objects.filter(LName=search)
+def Search_view(request):
+    if request.method=='POST':
+        search=request.POST.get('search')
+        stu=Student.objects.filter(SName__contains=search)
+        lec=Lecture.objects.filter(LName__contains=search)
+        dep=Department.objects.filter(DName__contains=search).first()
+        # print(dep)
+        if dep is not None:
+            stu_dep=Student.objects.filter(department_id=dep)
+            lec_dep=Lecture.objects.filter(department=dep.id)
             template_name='Record_tem/search.html'
-            context={'lecresult':lecresult}
+            context={'stu_dep':stu_dep,'lec_dep':lec_dep,'dep':dep}
             return render(request,template_name,context)
+        template_name='Record_tem/search.html'
+        context={'stu':stu,'lec':lec}
+        return render(request,template_name,context)
     template_name='Record_tem/search.html'
-    context={}
+    context={'abc':'abc'}
     return render(request,template_name,context)
+
+# def Searchview(request):
+#     if request.method == 'POST':
+#         radio=request.POST.get('dep')
+#         if radio == 'Department':
+#             search=request.POST.get('search')
+#             dep_obj=Department.objects.get(DName=search)
+#             dep_id=dep_obj.id
+#             lecresult=Lecture.objects.filter(department=dep_id)
+#             sturesult=Student.objects.filter(department_id=dep_id)
+#             template_name='Record_tem/search.html'
+#             context={'lecresult':lecresult,'sturesult':sturesult}
+#             return render(request,template_name,context)
+#         elif radio == 'Student':
+#             search=request.POST.get('search')
+#             sturesult=Student.objects.filter(SName=search)
+#             template_name='Record_tem/search.html'
+#             context={'sturesult':sturesult}
+#             return render(request,template_name,context)
+
+#         elif radio == 'Lecture':
+#             search=request.POST.get('search')
+#             lecresult=Lecture.objects.filter(LName=search)
+#             template_name='Record_tem/search.html'
+#             context={'lecresult':lecresult}
+#             return render(request,template_name,context)
+#     template_name='Record_tem/search.html'
+#     context={}
+#     return render(request,template_name,context)

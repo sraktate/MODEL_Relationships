@@ -1,119 +1,132 @@
 {% extends 'Record_tem/Home.html' %}
 
 {% load crispy_forms_tags %}
-{% block title %}
-    <title>Search Page</title>
-{% endblock %}
 
+
+{% block title %}
+    <title>Search</title>
+    {% endblock %}
 
 {% block content %}
-   <div class="card" style="padding: 5% 10% 5% 10%; background-color: rgb(241, 155, 155); color: black; margin: 1% 30% 5% 30%;">
-<form  method='POST'>
-    {% csrf_token %}
+<div class='container' style="width: 60%;">
+    <form method='post' class='jumbotron' >
+        {% csrf_token %}
 
-    <input type="radio" name="dep" value="Department" />Department
-    <input type="radio" name="dep" value="Student" />Student
-    <input type="radio" name="dep" value="Lecture" />Lecturer
-    <br><br>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" name='search' aria-label="Search"><br>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>  
 
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" name='search' aria-label="Search">
-    <br>
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button> 
-</form>
-</div>
-<div class="container" style="padding:20px 20px; background-color: rgb(245, 214, 111);">
-<table class="table table-striped">
-<thead>
-    {% for i in lecresult %}
-        {% for j in i.department.all %}
-            <h3 style="color: black;">{{j}}</h3>
-        {% endfor %}
+{% if dep %}
+
+<table class="table table-info">
+    <h3 style="text-align: center;">Student-Info</h3>
     <tr>
-        <th>Lecturer Name</th>
-        <th>Salary</th>
-        <th>subject</th>
-
+        <th>Student_Dep_name</th>
+        <th>Student_Rno</th>
+        <th>Student_Name</th>
+        <th>Student_Marks</th>
+        <th>Student_address</th> 
     </tr>
-</thead>
 
-    
-<tbody>
-   <td>{{i.LName}}</td> 
-   <td>{{i.Sal}}</td> 
-   <td>{{i.Lsub}}</td> 
+    {% for i in stu_dep %}
+    <tr>
+        <td>{{i.department}}</td>
+        <td>{{i.Roll_no}}</td>
+        <td>{{i.SName}}</td>
+        <td>{{i.Marks}}</td>  
+        <td>{{i.SAddress}}</td> 
+    </tr>
+    {% endfor %}  
+</table> 
+
+<br><br><br>
+
+<table class="table table-info">
+    <h3 style="text-align: center;">Lacturer-Info</h3>
+    <tr>
+        <th>Lecture Department</th>
+        <th>Lecture sal</th>
+        <th>Leture name</th>  
+    </tr>
+
+    {% for i in lec_dep %}
+    <tr>
+        <td>{% for j in i.department.all %}
+
+         {{j}}&nbsp;
+        {% endfor %}</td>
+        
+        <td>{{i.Sal}}</td>
+        <td>{{i.LName}}</td>
+         
+    </tr>
     {% endfor %}
-    </tbody>
-</table>
-</div>
-<div class="container" style="padding:20px 20px; background-color: rgb(131, 194, 69);">
-<table class="table table-striped">
-    <thead>
-        {% for i in sturesult %}
-        {% for j in i.department.all %}
-            <h1>{{j}}</h1>
-        {% endfor %}
-        <tr>
-            <th>Student Name</th>
-            <th>Roll No </th>
-            <th>Address</th>
-            <th>Marks</th>
-        </tr>
-    </thead>
-   
-<tbody>
-    <td> {{i.SName}}</td>
-    <td> {{i.Roll_no}}</td>
-    <td> {{i.SAddress}}</td>
-    <td> {{i.Marks}}</td>
+</table> 
+
+
+{% elif stu %}
+
+<table class="table table-info">
+    <h3 style="text-align: center;"> Student-Info</h3>
+    <tr>
+        <th>Student_Dep_name</th>
+        <th>Student_Rno</th>
+        <th>Student_Name</th>
+        <th>Student_Marks</th>  
+        <th>address</th> 
+    </tr>
+
+    {% for i in stu %}
+    <tr>
+        <td>{{i.department}}</td>
+        <td>{{i.Roll_no}}</td>
+        <td>{{i.SName}}</td>
+        <td>{{i.Marks}}</td>  
+        <td>{{i.SAddress}}</td>
+        
+    </tr>
+    {% endfor %}  
+</table> 
+
+
+{% elif lec %}
+
+<table class="table table-info">
+    <h3 style="text-align: center;">Lacturer-Info</h3>
+    <tr>  
+        <th>Lecture Department</th>
+        <th>Leture name</th>  
+        <th>Lecture sal</th>
+        <th>Lecture subject</th>
+        
+    </tr>
+
+    {% for i in lec %}
+    <tr>
+        <td>{% for j in i.department.all %}
+
+         {{j}}&nbsp;
+        {% endfor %}</td>
+        
+        <td>{{i.LName}}</td>
+        <td>{{i.Sal}}</td>
+        <td>{{i.Lsub}}</td>
+
+          
+    </tr>
     {% endfor %}
-</tbody>
+</table> 
+{% elif abc %}
 
-</table>
+
+
+{% else %}
+<h4>Recored Not Found</h4>
+
+{% endif %}
+
+    </form>
 </div>
 
-<div class="container" style="padding:20px 20px; background-color: rgb(245, 96, 126);">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Department</th>
-                <th>Student Name</th>
-                <th>Roll No </th>
-                <th>Address</th>
-                <th>Marks</th>
-            </tr>
-        </thead>
-        <tbody>
-                {% for i in sturesult %}
-                <td>{{i.department}}</td>
-                <td> {{i.SName}}</td>
-                <td> {{i.Roll_no}}</td>
-                <td> {{i.SAddress}}</td>
-                <td> {{i.Marks}}</td>
-                {% endfor %}
-        </tbody>
-    </table>
-</div>
 
-<div class="container" style="padding:20px 20px; background-color: rgb(245, 214, 111);">
-    <table class="table table-striped">
-    <thead>
-        {% for i in lecresult %}
-        {% for j in i.department.all %}
-            <h3 style="color: black;">{{j}}</h3>
-        {% endfor %}
-        <tr>
-            <th>Lecturer Name</th>
-            <th>Salary</th>
-            <th>subject</th>
-    
-        </tr>
-    </thead>
-    <tbody>
-        <td>{{i.LName}}</td> 
-        <td>{{i.Sal}}</td> 
-        <td>{{i.Lsub}}</td> 
-        {% endfor %}
-    </tbody>
-</table>
-</div>
+
 {% endblock %}

@@ -13,7 +13,7 @@ urlpatterns=[
     path('updatelecturer/<int:update>',views.UpdateLecturerView,name='Updatelecture'),
     path('deletestu/<int:delete>',views.DeleteStudentView,name='Deletestudent'),
     path('deletelecturer/<int:delete>',views.DeleteLecturerView,name='Deletelecture'),
-    path('search/',views.Searchview,name='Search'),
+    path('search/',views.Search_view,name='Search'),
 
 
     
